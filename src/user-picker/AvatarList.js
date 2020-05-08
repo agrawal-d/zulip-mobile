@@ -8,7 +8,7 @@ import AvatarItem from './AvatarItem';
 type Props = $ReadOnly<{|
   users: User[],
   listRef: (component: FlatList<User> | null) => void,
-  onPress: (email: string) => void,
+  onPress: (userId: number) => void,
 |}>;
 
 export default class AvatarList extends PureComponent<Props> {
@@ -30,6 +30,7 @@ export default class AvatarList extends PureComponent<Props> {
         renderItem={({ item }) => (
           <AvatarItem
             email={item.email}
+            userId={item.user_id}
             avatarUrl={item.avatar_url}
             fullName={item.full_name}
             onPress={onPress}

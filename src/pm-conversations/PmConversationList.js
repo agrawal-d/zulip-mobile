@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
   conversations: PmConversationData[],
+  usersById: Map<number, UserOrBot>,
   usersByEmail: Map<string, UserOrBot>,
 |}>;
 
@@ -25,8 +26,12 @@ type Props = $ReadOnly<{|
  * A list describing all PM conversations.
  * */
 export default class PmConversationList extends PureComponent<Props> {
-  handleUserNarrow = (email: string) => {
-    this.props.dispatch(doNarrow(privateNarrow(email)));
+  handleUserNarrow = (userId: number) => {
+    const { usersById } = this.props;
+    const user = usersById.get(userId);
+    if (user) {
+      this.props.dispatch(doNarrow(privateNarrow(user.email)));
+    }
   };
 
   handleGroupNarrow = (email: string) => {
@@ -53,6 +58,7 @@ export default class PmConversationList extends PureComponent<Props> {
             return (
               <UserItem
                 email={user.email}
+                userId={user.user_id}
                 fullName={user.full_name}
                 avatarUrl={user.avatar_url}
                 unreadCount={item.unread}

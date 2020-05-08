@@ -6,7 +6,7 @@ import type { Dispatch, PresenceState, User } from '../types';
 import { connect } from '../react-redux';
 import { privateNarrow } from '../utils/narrow';
 import UserList from './UserList';
-import { getUsers, getPresence } from '../selectors';
+import { getUsers, getPresence, getUsersById } from '../selectors';
 import { navigateBack, doNarrow } from '../actions';
 
 type Props = $ReadOnly<{|
@@ -14,13 +14,17 @@ type Props = $ReadOnly<{|
   users: User[],
   filter: string,
   presences: PresenceState,
+  usersById: Map<number, User>,
 |}>;
 
 class UsersCard extends PureComponent<Props> {
-  handleUserNarrow = (email: string) => {
-    const { dispatch } = this.props;
-    dispatch(navigateBack());
-    dispatch(doNarrow(privateNarrow(email)));
+  handleUserNarrow = (userId: number) => {
+    const { dispatch, usersById } = this.props;
+    const user = usersById.get(userId);
+    if (user) {
+      dispatch(navigateBack());
+      dispatch(doNarrow(privateNarrow(user.email)));
+    }
   };
 
   render() {
@@ -38,5 +42,6 @@ class UsersCard extends PureComponent<Props> {
 
 export default connect(state => ({
   users: getUsers(state),
+  usersById: getUsersById(state),
   presences: getPresence(state),
 }))(UsersCard);

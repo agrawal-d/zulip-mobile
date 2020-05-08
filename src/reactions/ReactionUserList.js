@@ -39,6 +39,7 @@ class ReactionUserList extends PureComponent<Props> {
           return (
             <UserItem
               key={user.user_id}
+              userId={user.user_id}
               fullName={user.full_name}
               avatarUrl={user.avatar_url}
               email={user.email}

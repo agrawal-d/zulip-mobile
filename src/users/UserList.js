@@ -19,7 +19,7 @@ type Props = $ReadOnly<{|
   users: User[],
   selected: User[],
   presences: PresenceState,
-  onPress: (email: string) => void,
+  onPress: (userId: number) => void,
 |}>;
 
 export default class UserList extends PureComponent<Props> {
@@ -51,7 +51,8 @@ export default class UserList extends PureComponent<Props> {
         keyExtractor={item => item.email}
         renderItem={({ item }) => (
           <UserItem
-            key={item.email}
+            userId={item.user_id}
+            key={item.user_id}
             fullName={item.full_name}
             avatarUrl={item.avatar_url}
             email={item.email}

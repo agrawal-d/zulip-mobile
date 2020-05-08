@@ -13,6 +13,7 @@ import { streamNarrow, topicNarrow } from '../utils/narrow';
 import {
   getUnreadConversations,
   getAllUsersByEmail,
+  getAllUsersById,
   getUnreadStreamsAndTopicsSansMuted,
 } from '../selectors';
 import { doNarrow } from '../actions';
@@ -21,6 +22,7 @@ type Props = $ReadOnly<{|
   conversations: PmConversationData[],
   dispatch: Dispatch,
   usersByEmail: Map<string, UserOrBot>,
+  usersById: Map<number, UserOrBot>,
   unreadStreamsAndTopics: UnreadStreamItem[],
 |}>;
 
@@ -92,5 +94,6 @@ class UnreadCards extends PureComponent<Props> {
 export default connect(state => ({
   conversations: getUnreadConversations(state),
   usersByEmail: getAllUsersByEmail(state),
+  usersById: getAllUsersById(state),
   unreadStreamsAndTopics: getUnreadStreamsAndTopicsSansMuted(state),
 }))(UnreadCards);

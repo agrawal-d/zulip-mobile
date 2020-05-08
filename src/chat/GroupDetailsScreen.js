@@ -29,7 +29,8 @@ class GroupDetailsScreen extends PureComponent<Props> {
           keyExtractor={item => item.email}
           renderItem={({ item }) => (
             <UserItem
-              key={item.email}
+              key={item.user_id}
+              userId={item.user_id}
               fullName={item.full_name}
               avatarUrl={item.avatar_url}
               email={item.email}

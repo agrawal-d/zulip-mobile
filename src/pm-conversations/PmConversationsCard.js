@@ -8,7 +8,7 @@ import { connect } from '../react-redux';
 import { Label, ZulipButton, LoadingBanner } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
 import PmConversationList from './PmConversationList';
-import { getRecentConversations, getAllUsersByEmail } from '../selectors';
+import { getRecentConversations, getAllUsersByEmail, getAllUsersById } from '../selectors';
 import { navigateToCreateGroup, navigateToUsersScreen } from '../actions';
 
 const styles = StyleSheet.create({
@@ -34,6 +34,7 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
   conversations: PmConversationData[],
   usersByEmail: Map<string, UserOrBot>,
+  usersById: Map<number, UserOrBot>,
 |}>;
 
 /**
@@ -48,7 +49,7 @@ class PmConversationsCard extends PureComponent<Props> {
 
   render() {
     const { styles: contextStyles } = this.context;
-    const { dispatch, conversations, usersByEmail } = this.props;
+    const { dispatch, conversations, usersByEmail, usersById } = this.props;
 
     return (
       <View style={[styles.container, contextStyles.background]}>
@@ -79,6 +80,7 @@ class PmConversationsCard extends PureComponent<Props> {
           <PmConversationList
             dispatch={dispatch}
             conversations={conversations}
+            usersById={usersById}
             usersByEmail={usersByEmail}
           />
         )}
@@ -89,5 +91,6 @@ class PmConversationsCard extends PureComponent<Props> {
 
 export default connect(state => ({
   conversations: getRecentConversations(state),
+  usersById: getAllUsersById(state),
   usersByEmail: getAllUsersByEmail(state),
 }))(PmConversationsCard);

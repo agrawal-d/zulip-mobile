@@ -10,7 +10,7 @@ import { IconDone } from '../common/Icons';
 import UserList from '../users/UserList';
 import AvatarList from './AvatarList';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
-import { getPresence, getUsersSansMe, getUsersByEmail } from '../selectors';
+import { getPresence, getUsersSansMe, getUsersById } from '../selectors';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
   users: User[],
-  usersByEmail: Map<string, User>,
+  usersById: Map<number, User>,
   presences: PresenceState,
   filter: string,
   onComplete: (selected: User[]) => void,
@@ -46,11 +46,11 @@ class UserPickerCard extends PureComponent<Props, State> {
 
   listRef: ?FlatList<User>;
 
-  handleUserSelect = (email: string) => {
-    const { usersByEmail } = this.props;
+  handleUserSelect = (userId: number) => {
+    const { usersById } = this.props;
     const { selected } = this.state;
 
-    const user = usersByEmail.get(email);
+    const user = usersById.get(userId);
     if (user) {
       this.setState({
         selected: [...selected, user],
@@ -58,21 +58,20 @@ class UserPickerCard extends PureComponent<Props, State> {
     }
   };
 
-  handleUserPress = (email: string) => {
+  handleUserPress = (userId: number) => {
     const { selected } = this.state;
-
-    if (selected.find(x => x.email === email)) {
-      this.handleUserDeselect(email);
+    if (selected.find(x => x.user_id === userId)) {
+      this.handleUserDeselect(userId);
     } else {
-      this.handleUserSelect(email);
+      this.handleUserSelect(userId);
     }
   };
 
-  handleUserDeselect = (email: string) => {
+  handleUserDeselect = (userId: number) => {
     const { selected } = this.state;
 
     this.setState({
-      selected: selected.filter(x => x.email !== email),
+      selected: selected.filter(x => x.user_id !== userId),
     });
   };
 
@@ -127,6 +126,6 @@ class UserPickerCard extends PureComponent<Props, State> {
 
 export default connect(state => ({
   users: getUsersSansMe(state),
-  usersByEmail: getUsersByEmail(state),
+  usersById: getUsersById(state),
   presences: getPresence(state),
 }))(UserPickerCard);

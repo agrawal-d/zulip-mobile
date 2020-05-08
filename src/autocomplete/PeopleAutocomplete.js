@@ -28,9 +28,9 @@ class PeopleAutocomplete extends PureComponent<Props> {
     this.props.onAutocomplete(`*${name}*`);
   };
 
-  handleUserItemAutocomplete = (email: string): void => {
+  handleUserItemAutocomplete = (userId: number): void => {
     const { users, onAutocomplete } = this.props;
-    const user = users.find(x => x.email === email);
+    const user = users.find(x => x.user_id === userId);
     if (user) {
       onAutocomplete(`**${user.full_name}**`);
     }
@@ -62,6 +62,7 @@ class PeopleAutocomplete extends PureComponent<Props> {
         renderItem: ({ item }) => (
           <UserItem
             key={item.user_id}
+            userId={item.user_id}
             fullName={item.full_name}
             avatarUrl={item.avatar_url}
             email={item.email}

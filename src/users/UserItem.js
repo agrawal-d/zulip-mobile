@@ -31,7 +31,8 @@ type Props = $ReadOnly<{|
   isSelected: boolean,
   showEmail: boolean,
   unreadCount?: number,
-  onPress: (email: string) => void,
+  userId: number,
+  onPress: (userId: number) => void,
 |}>;
 
 export default class UserItem extends PureComponent<Props> {
@@ -41,9 +42,9 @@ export default class UserItem extends PureComponent<Props> {
   };
 
   handlePress = () => {
-    const { email, onPress } = this.props;
-    if (email && onPress) {
-      onPress(email);
+    const { userId, onPress } = this.props;
+    if (userId !== undefined && onPress) {
+      onPress(userId);
     }
   };
 

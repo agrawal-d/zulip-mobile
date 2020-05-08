@@ -26,9 +26,10 @@ const styles = StyleSheet.create({
 
 type Props = $ReadOnly<{|
   email: string,
+  userId: number,
   avatarUrl: ?string,
   fullName: string,
-  onPress: (email: string) => void,
+  onPress: (userId: number) => void,
 |}>;
 
 export default class AvatarItem extends PureComponent<Props> {
@@ -44,17 +45,17 @@ export default class AvatarItem extends PureComponent<Props> {
   }
 
   handlePress = () => {
-    const { email, onPress } = this.props;
+    const { userId, onPress } = this.props;
     Animated.timing(this.animatedValue, {
       toValue: 0,
       duration: 300,
       useNativeDriver: true,
       easing: Easing.elastic(),
-    }).start(() => onPress(email));
+    }).start(() => onPress(userId));
   };
 
   render() {
-    const { email, avatarUrl, fullName } = this.props;
+    const { userId, email, avatarUrl, fullName } = this.props;
     const animatedStyle = {
       transform: [{ scale: this.animatedValue }],
     };
@@ -69,7 +70,7 @@ export default class AvatarItem extends PureComponent<Props> {
             overlayPosition="bottom-right"
             overlay={<IconCancel color="gray" size={20} />}
           >
-            <UserAvatarWithPresence key={email} size={50} avatarUrl={avatarUrl} email={email} />
+            <UserAvatarWithPresence key={userId} size={50} avatarUrl={avatarUrl} email={email} />
           </ComponentWithOverlay>
         </Touchable>
         <View style={styles.textFrame}>
