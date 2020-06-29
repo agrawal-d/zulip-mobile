@@ -22,7 +22,7 @@ import { isTopicMuted } from '../utils/message';
 import * as api from '../api';
 import { showToast } from '../utils/info';
 import { doNarrow, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
-import { navigateToMessageReactionScreen } from '../nav/navActions';
+import { navigateToMessageReactionScreen, navigateToEditHistory } from '../nav/navActions';
 import { pmUiRecipientsFromMessage } from '../utils/recipient';
 import { deleteMessagesForTopic } from '../topics/topicActions';
 import * as logging from '../utils/logging';
@@ -41,6 +41,7 @@ type ButtonDescription = {
     ownEmail: string,
     message: Message | Outbox,
     subscriptions: Subscription[],
+    backgroundData: BackgroundData,
     dispatch: Dispatch,
     _: GetText,
     startEditMessage: (editMessage: EditMessage) => void,
@@ -200,6 +201,12 @@ const showReactions = ({ message, dispatch }) => {
 showReactions.title = 'See who reacted';
 showReactions.errorMessage = 'Failed to show reactions';
 
+const editHistory = ({ message, dispatch, backgroundData }) => {
+  dispatch(navigateToEditHistory(message.id, backgroundData.theme));
+};
+editHistory.title = 'Show edit history';
+editHistory.errorMessage = 'Failed to show edit history';
+
 const cancel = params => {};
 cancel.title = 'Cancel';
 cancel.errorMessage = 'Failed to hide menu';
@@ -215,6 +222,7 @@ const allButtonsRaw = {
   starMessage,
   unstarMessage,
   showReactions,
+  editHistory,
 
   // For headers
   unmuteTopic,
@@ -316,6 +324,11 @@ export const constructMessageActionButtons = ({
   } else {
     buttons.push('starMessage');
   }
+
+  if (message.last_edit_timestamp !== undefined) {
+    buttons.push('editHistory');
+  }
+
   buttons.push('cancel');
   return buttons;
 };

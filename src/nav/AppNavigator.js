@@ -31,6 +31,7 @@ import TopicListScreen from '../topics/TopicListScreen';
 import EmojiPickerScreen from '../emoji/EmojiPickerScreen';
 import LegalScreen from '../settings/LegalScreen';
 import UserStatusScreen from '../user-status/UserStatusScreen';
+import EditHistory from '../message/EditHistory';
 
 export default createStackNavigator(
   // $FlowFixMe react-navigation types :-/ -- see a36814e80
@@ -45,6 +46,7 @@ export default createStackNavigator(
     loading: { screen: LoadingScreen },
     main: { screen: MainScreenWithTabs },
     'message-reactions': { screen: MessageReactionList },
+    'edit-history': { screen: EditHistory },
     password: { screen: PasswordAuthScreen },
     realm: { screen: RealmScreen },
     search: { screen: SearchMessagesScreen },

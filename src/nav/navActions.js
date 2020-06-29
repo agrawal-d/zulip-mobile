@@ -9,6 +9,7 @@ import type {
   Narrow,
   UserOrBot,
   ApiResponseServerSettings,
+  ThemeName,
 } from '../types';
 import { getSameRoutesCount } from '../selectors';
 
@@ -98,6 +99,9 @@ export const navigateToMessageReactionScreen = (
   reactionName?: string,
 ): NavigationAction =>
   StackActions.push({ routeName: 'message-reactions', params: { messageId, reactionName } });
+
+export const navigateToEditHistory = (messageId: number, theme: ThemeName): NavigationAction =>
+  StackActions.push({ routeName: 'edit-history', params: { messageId, theme } });
 
 export const navigateToLegal = (): NavigationAction => StackActions.push({ routeName: 'legal' });
 
