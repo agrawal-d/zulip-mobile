@@ -350,19 +350,17 @@ export type Reaction = $ReadOnly<{|
 export type MessageSnapshot = $ReadOnly<{|
   user_id: number,
   timestamp: number,
+  topic: string,
+  content: string,
+  rendered_content: string,
 
-  /** Docs unclear but suggest absent if only content edited. */
-  topic?: string,
-
-  /**
-   * Docs unclear, but suggest these five absent if only topic edited.
-   * They definitely say "prev"/"diff" properties absent on the first snapshot.
-   */
-  content?: string,
-  rendered_content?: string,
+  // These are present just if the content was edited.
   prev_content?: string,
   prev_rendered_content?: string,
   content_html_diff?: string,
+
+  // Present just if the topic was edited.
+  prev_topic?: string,
 |}>;
 
 /**
